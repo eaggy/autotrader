@@ -4,7 +4,6 @@
 import sys
 import json
 import requests
-import configparser
 import urllib3
 import pandas as pd
 from setup_logger import logger
@@ -12,21 +11,6 @@ from datetime import datetime, timedelta
 from brokers import urls
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-PATH_SETTINGS = 'settings.cfg'
-
-# read configuration
-try:
-    logger.info('Reading configuration from {}...'.format(PATH_SETTINGS))
-    config = configparser.ConfigParser()
-    config.read_file(open(PATH_SETTINGS))
-
-    USER_NAME = config.get('DEGIRO', 'USER')
-    USER_PASSWORD = config.get('DEGIRO', 'PASSWORD')
-
-except Exception as e:
-    logger.critical(e)
-    sys.exit(-1)
 
 
 class Degiro:

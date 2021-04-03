@@ -178,3 +178,20 @@ class TradingClient:
         """
         if self.connection:
             self.connection.close()
+
+    def stop_server(self):
+        """
+        Stop server and close connection.
+
+        Parameters
+        ----------
+        None.
+
+        Returns
+        -------
+        None.
+
+        """
+        if self.connection:
+            self.connection.send('shutdown')
+            self.connection.close()

@@ -5,6 +5,7 @@ from setup_logger import logger
 from socket import error as SocketError
 from socket import errno as SocketErrno
 from multiprocessing.connection import Listener, Client
+from autotrader import Autotrader
 
 
 class TradingServer:
@@ -85,10 +86,24 @@ class TradingServer:
                 elif isinstance(self.message, dict):
                     self.connection.close()
                     logger.info('Got trading info: {}.'.format(self.message))
-                    # plase trading code here
-                    #
-                    #
-                    #
+                    try:
+                        logger.info('Got trading info from: {}.'.
+                                    format(self.message['from']))
+                        logger.info('Got trading info to: {}.'.
+                                    format(self.message['to']))
+
+                        # broker Degiro
+                        if self.message['to'].lower() == 'degiro':
+                            at = Autotrader(self.message)
+                            at.trade()
+
+                        # unknown broker
+                        else:
+                            logger.warning('Unknown broker: {}.'.
+                                           format(self.message['to']))
+
+                    except KeyError:
+                        logger.error('Unexpected key in trading info.')
                     break
 
                 # another type of message

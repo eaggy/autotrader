@@ -1,11 +1,20 @@
 # -*- coding: utf-8 -*-
 """The file contains the class definition of trading server/client."""
 
-from setup_logger import logger
+import os
+import sys
+import inspect
 from socket import error as SocketError
 from socket import errno as SocketErrno
 from multiprocessing.connection import Listener, Client
-from autotrader import Autotrader
+
+currentdir = os.path.dirname(
+    os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
+
+from setup_logger import logger
+from autotrader.autotrader import Autotrader
 
 
 class TradingServer:
@@ -27,6 +36,8 @@ class TradingServer:
             self.listener = Listener(
                 (self.host, self.port),
                 authkey=bytes(self.password, encoding='UTF-8'))
+            logger.info('Trading server is running on {}:{}'.format(
+                self.host, self.port))
         except SocketError as e:
             if e.errno == SocketErrno.EADDRINUSE:
                 logger.error('Address {}:{} already in use.'

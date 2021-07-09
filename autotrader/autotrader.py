@@ -20,9 +20,13 @@ class Autotrader(Degiro):
             if self.origin.lower() == 'degiro':
                 Degiro.__init__(self)
                 self.exchange = 'XET'
+            else:
+                logger.warning('Unknown broker.')
+                return None
 
         except KeyError:
             logger.error('Unexpected key in trading info.')
+            return None
 
     def trade(self, user, password,
               isin='', transaction='', price=0.0, size=0):

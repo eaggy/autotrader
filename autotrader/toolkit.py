@@ -2,11 +2,23 @@
 """The file contains some useful functions."""
 
 import re
+import os
+import sys
+import inspect
+import smtplib
 import datetime
 import requests
 from random import randrange
 from bs4 import BeautifulSoup
-from setup_logger import logger
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
+currentdir = os.path.dirname(
+    os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
+
+from autotrader.setup_logger import logger
 
 
 def FWB_closed():
@@ -196,3 +208,45 @@ def time_plan_convertor(time_plan):
     time_points = sorted(set(time_points))
 
     return time_points
+
+
+def send_email(subject, body, recipient, relay, user, password):
+    """
+    Send email over SMTP relay.
+
+    Parameters
+    ----------
+    subject : str
+        Subject of email.
+    body : string
+        Body of email.
+    recipient : str, optional
+        Email address of receiver.
+    relay : str, optional
+        SMTP-server address.
+    user : str, optional
+        User name.
+    password : str, optional
+        User password.
+
+    Returns
+    -------
+    None.
+
+    """
+    try:
+        conn = smtplib.SMTP(relay, 587)
+        conn.starttls()
+        conn.login(user, password)
+        sender_email = user
+        message = MIMEMultipart()
+        message['From'] = user
+        message['To'] = recipient
+        message['Subject'] = subject
+        message.attach(MIMEText(body, 'plain'))
+        text = message.as_string()
+        conn.sendmail(sender_email, recipient, text)
+    except Exception as e:
+        logger.error(e)
+    finally:
+        conn.quit()

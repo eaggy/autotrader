@@ -1,14 +1,22 @@
 # -*- coding: utf-8 -*-
 """The file contains the class definition of unofficial Degiro API."""
 
+import os
 import sys
 import json
+import inspect
 import requests
 import urllib3
 import pandas as pd
-from setup_logger import logger
 from datetime import datetime, timedelta
 from brokers import urls
+
+currentdir = os.path.dirname(
+    os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
+
+from autotrader.setup_logger import logger
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 

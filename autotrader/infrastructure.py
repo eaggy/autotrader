@@ -13,7 +13,7 @@ currentdir = os.path.dirname(
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
-from setup_logger import logger
+from autotrader.setup_logger import logger
 from autotrader.autotrader import Autotrader
 
 

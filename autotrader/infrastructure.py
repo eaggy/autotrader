@@ -14,7 +14,7 @@ parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
 from autotrader.setup_logger import logger
-from autotrader.autotrader import autotrader
+from autotrader import Autotrader
 
 
 class TradingServer:

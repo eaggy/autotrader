@@ -1,19 +1,10 @@
 # -*- coding: utf-8 -*-
 """The file contains the class definition of trading server/client."""
 
-import os
-import sys
-import inspect
 from socket import error as SocketError
 from socket import errno as SocketErrno
 from multiprocessing.connection import Listener, Client
-
-currentdir = os.path.dirname(
-    os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)
-
-from autotrader.setup_logger import logger
+from setup_logger import logger
 from autotrader import Autotrader
 
 

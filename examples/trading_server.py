@@ -12,8 +12,8 @@ currentdir = os.path.dirname(
 parentdir = os.path.dirname(currentdir)
 sys.path.insert(0, parentdir)
 
-#from autotrader.setup_logger import logger
-#from autotrader.infrastructure import TradingServer
+from autotrader.setup_logger import logger
+from autotrader.infrastructure import TradingServer
 
 PATH_SETTINGS = '/var/www/flask/autotrader/settings.cfg'
 

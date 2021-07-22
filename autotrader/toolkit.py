@@ -2,9 +2,6 @@
 """The file contains some useful functions."""
 
 import re
-import os
-import sys
-import inspect
 import smtplib
 import datetime
 import requests
@@ -12,13 +9,7 @@ from random import randrange
 from bs4 import BeautifulSoup
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
-currentdir = os.path.dirname(
-    os.path.abspath(inspect.getfile(inspect.currentframe())))
-parentdir = os.path.dirname(currentdir)
-sys.path.insert(0, parentdir)
-
-from autotrader.setup_logger import logger
+from setup_logger import logger
 
 
 def FWB_closed():

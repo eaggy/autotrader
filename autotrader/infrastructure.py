@@ -4,8 +4,8 @@
 from socket import error as SocketError
 from socket import errno as SocketErrno
 from multiprocessing.connection import Listener, Client
-from setup_logger import logger
-from autotrader import Autotrader
+from autotrader.setup_logger import logger
+from autotrader.autotrader import Autotrader
 
 
 class TradingServer:
@@ -14,11 +14,17 @@ class TradingServer:
     def __init__(self,
                  host='localhost',
                  port=6000,
-                 password=''
+                 password='',
+                 broker_user='',
+                 broker_password='',
+                 budget=None
                  ):
         self.host = host
         self.port = port
         self.password = password
+        self.broker_user = broker_user
+        self.broker_password = broker_password
+        self.budget = budget
         self.listener = None
         self.connection = None
         self.running = False
@@ -89,14 +95,12 @@ class TradingServer:
                     self.connection.close()
                     logger.info('Got trading info: {}.'.format(self.message))
                     try:
-                        logger.info('Got trading info from: {}.'.
-                                    format(self.message['from']))
-                        logger.info('Got trading info to: {}.'.
-                                    format(self.message['to']))
-
                         # broker Degiro
                         if self.message['to'].lower() == 'degiro':
-                            at = Autotrader(self.message)
+                            at = Autotrader(self.broker_user,
+                                            self.broker_password,
+                                            self.budget,
+                                            self.message)
                             at.trade()
 
                         # unknown broker

@@ -9,7 +9,7 @@ from random import randrange
 from bs4 import BeautifulSoup
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from setup_logger import logger
+from autotrader.setup_logger import logger
 
 
 def FWB_closed():

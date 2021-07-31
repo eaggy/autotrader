@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 """The file contains the class definition of autotrader."""
 
-from setup_logger import logger
+from autotrader.setup_logger import logger
 from brokers.degiro import Degiro
 
 
 class Autotrader(Degiro):
     """Class representation of autotrader."""
 
-    def __init__(self, budget, trading_info):
+    def __init__(self, user, password, budget, trading_info):
+        self.user = user
+        self.password = password
         self.budget = budget
         self.source = None
         self.origin = None
@@ -28,15 +30,13 @@ class Autotrader(Degiro):
             logger.error('Unexpected key in trading info.')
             return None
 
-    def trade(self, user, password,
-              isin='', transaction='', price=0.0, size=0):
+    def trade(self,  isin='', transaction='', price=0.0, size=0):
         """
-        Send a message.
+        Execute a trade.
 
         Parameters
         ----------
-        message : str or dict
-            Message to be sent.
+        TO DO
 
         Returns
         -------
@@ -100,9 +100,9 @@ class Autotrader(Degiro):
                 return None
 
             # get broker info
-            self.login(user, password)
+            self.login(self.user, self.password)
             self.get_config()
-            self.get_client_info()
+            self.get_user_info()
             self.get_data('cashFunds')
             self.get_data('portfolio')
             #self.get_orders(active=True)

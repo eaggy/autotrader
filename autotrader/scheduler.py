@@ -6,9 +6,9 @@ import sys
 import time
 from datetime import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
-from setup_logger import logger
-from toolkit import FWB_closed, time_plan_convertor, send_email
-from infrastructure import TradingClient
+from autotrader.setup_logger import logger
+from autotrader.toolkit import FWB_closed, time_plan_convertor, send_email
+from autotrader.infrastructure import TradingClient
 
 
 class Scheduler:

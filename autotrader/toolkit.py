@@ -244,14 +244,14 @@ def send_email(subject, body, recipient, relay, user, password):
         conn.quit()
 
 
-def fake_header():
+def fake_headers():
     """
-    Generate header section of a request with a faked user agent.
+    Generate headers section of a request with a faked user agent.
 
     Returns
     -------
-    header : dict
-        Generated header section of a request.
+    headers : dict
+        Generated headers section of a request.
 
     """
     user_agents = [
@@ -296,10 +296,10 @@ def fake_header():
          'Version/14.1.2 Safari/605.1.15')
         ]
 
-    header = {'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-              'Accept-Encoding': 'none',
-              'Accept-Language': 'de; q=1.0, en; q=0.5',
-              'Connection': 'keep-alive',
-              'User-Agent': random.choice(user_agents)}
+    headers = {'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+               'Accept-Encoding': 'none',
+               'Accept-Language': 'de; q=1.0, en; q=0.5',
+               'Connection': 'keep-alive',
+               'User-Agent': random.choice(user_agents)}
 
-    return header
+    return headers

@@ -2,6 +2,7 @@
 """The file contains some useful functions."""
 
 import re
+import random
 import smtplib
 import datetime
 import requests
@@ -241,3 +242,64 @@ def send_email(subject, body, recipient, relay, user, password):
         logger.error(e)
     finally:
         conn.quit()
+
+
+def fake_header():
+    """
+    Generate header section of a request with a faked user agent.
+
+    Returns
+    -------
+    header : dict
+        Generated header section of a request.
+
+    """
+    user_agents = [
+        ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/92.0.4515.107 Safari/537.36'),
+        ('Mozilla/5.0 (X11; Linux x86_64) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/92.0.4515.107 Safari/537.36'),
+        ('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_5_1) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/92.0.4515.107 Safari/537.36'),
+        ('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) '
+         'Gecko/20100101 Firefox/90.0'),
+        ('Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) '
+         'Gecko/20100101 Firefox/90.0'),
+        ('Mozilla/5.0 (Macintosh; Intel Mac OS X 11.5; rv:90.0) '
+         'Gecko/20100101 Firefox/90.0'),
+        ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/92.0.4515.107 Safari/537.36 Edg/92.0.902.55'),
+        ('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_5_1) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/92.0.4515.107 Safari/537.36 Edg/92.0.902.55'),
+        ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/92.0.4515.107 Safari/537.36 OPR/77.0.4054.277'),
+        ('Mozilla/5.0 (X11; Linux x86_64) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/92.0.4515.107 Safari/537.36 OPR/77.0.4054.277'),
+        ('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_5_1) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/92.0.4515.107 Safari/537.36 OPR/77.0.4054.277'),
+        ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) '
+         'Chrome/92.0.4515.107 YaBrowser/21.6.0 Yowser/2.5 Safari/537.36'),
+        ('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_5_1) '
+         'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 '
+         'YaBrowser/21.6.0 Yowser/2.5 Safari/537.36'),
+        ('Mozilla/5.0 (Macintosh; Intel Mac OS X 11_5_1) '
+         'AppleWebKit/605.1.15 (KHTML, like Gecko) '
+         'Version/14.1.2 Safari/605.1.15')
+        ]
+
+    header = {'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+              'Accept-Encoding': 'none',
+              'Accept-Language': 'de; q=1.0, en; q=0.5',
+              'Connection': 'keep-alive',
+              'User-Agent': random.choice(user_agents)}
+
+    return header

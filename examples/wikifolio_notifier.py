@@ -16,8 +16,8 @@ try:
     config = configparser.ConfigParser()
     config.read_file(open(PATH_SETTINGS))
 
-    USER_NAME = config.get('WIKIFOLIO', 'USER')
-    USER_PASSWORD = config.get('WIKIFOLIO', 'PASSWORD')
+    USER_NAMES = config.get('WIKIFOLIO', 'USER').split()
+    USER_PASSWORDS = config.get('WIKIFOLIO', 'PASSWORD').split()
     SYMBOL = config.get('WIKIFOLIO', 'SYMBOL')
 
     RECIPIENT = config.get('EMAIL', 'RECIPIENT')
@@ -59,7 +59,7 @@ def wikifolio_notifier(host, port, listener_password, time_plan,
     wfm = WikifolioMonitor()
 
     # login
-    wfm.login(USER_NAME, USER_PASSWORD)
+    wfm.login(USER_NAMES, USER_PASSWORDS)
 
     # get wikifolio ID
     wfm.get_wikifolio_id(SYMBOL)

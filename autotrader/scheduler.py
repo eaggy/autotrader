@@ -66,7 +66,7 @@ class Scheduler:
             Email address of a recipient
         **kwargs : dict
             Keyword arguments:
-                address : str
+                recipient : str
                     Email address of a recipient.
                 relay : str
                     URL of relay email-server.
@@ -105,7 +105,7 @@ class Scheduler:
                         self.time_plan[0],
                         self.time_plan[-1]))
             send_email(subject, body,
-                       kwargs['address'],
+                       kwargs['recipient'],
                        kwargs['relay'],
                        kwargs['relay_user'],
                        kwargs['relay_password'])

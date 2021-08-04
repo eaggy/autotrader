@@ -70,7 +70,7 @@ class Scheduler:
                     Email address of a recipient.
                 relay : str
                     URL of relay email-server.
-                user : str
+                relay_user : str
                     Email user for relay.
                 relay_password :str
                     Email password for relay.
@@ -107,7 +107,7 @@ class Scheduler:
             send_email(subject, body,
                        kwargs['address'],
                        kwargs['relay'],
-                       kwargs['user'],
+                       kwargs['relay_user'],
                        kwargs['relay_password'])
 
         except Exception as e:

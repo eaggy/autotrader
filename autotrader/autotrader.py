@@ -126,8 +126,6 @@ class Autotrader(Degiro):
                     continue
 
             # execute trade
-            print('Executing {} for {} of {} at {}.'.format(transaction, product_id, size, price))
-            #self.place_order(transaction, product_id, size,
-            #                 limit=price, stop_loss=None,
-            #                 order_type=0, validity=1)
-
+            self.place_order(transaction, product_id, size,
+                             limit=price, stop_loss=None,
+                             order_type=0, validity=3)

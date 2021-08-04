@@ -54,8 +54,7 @@ class Scheduler:
             logger.warning('No time points in the time plan.')
             sys.exit(0)
 
-    def set_scheduler(self, task, address, relay, user, relay_password,
-                      **kwargs):
+    def set_scheduler(self, task, **kwargs):
         """
         Set scheduler for a task `task` according to the time plan.
 
@@ -65,14 +64,16 @@ class Scheduler:
             Function which should be executed by scheduler.
         address : str
             Email address of a recipient
-        relay : str
-            URL of relay email-server.
-        user : str
-            Email user for relay.
-        relay_password :str
-            Email password for relay.
         **kwargs : dict
-            Keyword arguments.
+            Keyword arguments:
+                address : str
+                    Email address of a recipient.
+                relay : str
+                    URL of relay email-server.
+                user : str
+                    Email user for relay.
+                relay_password :str
+                    Email password for relay.
 
         Returns
         -------
@@ -103,7 +104,11 @@ class Scheduler:
                         len(self.time_plan),
                         self.time_plan[0],
                         self.time_plan[-1]))
-            send_email(subject, body, address, relay, user, relay_password)
+            send_email(subject, body,
+                       kwargs['address'],
+                       kwargs['relay'],
+                       kwargs['user'],
+                       kwargs['relay_password'])
 
         except Exception as e:
             logger.critical(e)

@@ -78,8 +78,11 @@ def wikifolio_notifier(host, port, listener_password, time_plan,
     sdl.create_time_plan(time_plan)
 
     # set scheduler
-    sdl.set_scheduler(wfm.notify, recipient,
-                      relay, relay_user, relay_password,
+    sdl.set_scheduler(wfm.notify,
+                      recipient=recipient,
+                      relay=relay,
+                      relay_user=relay_user,
+                      relay_password=relay_password,
                       host=host, port=port, password=listener_password)
 
 

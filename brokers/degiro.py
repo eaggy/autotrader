@@ -2,6 +2,7 @@
 """The file contains the class definition of unofficial Degiro API."""
 import sys
 import json
+import time
 import requests
 import urllib3
 import pandas as pd
@@ -548,32 +549,44 @@ class Degiro:
                    'stopPrice': stop_loss}
 
         try:
-            url = self.url_place_order + ';jsessionid=' + self.session_id
-            place_order_response = self.session.post(url,
-                                                     headers=self.headers,
-                                                     params=params,
-                                                     json=payload)
+            # make 3 attempts to place an order
+            attempt = 1
+            while attempt <= 3:
+                url = self.url_place_order + ';jsessionid=' + self.session_id
+                place_order_response = self.session.post(url,
+                                                         headers=self.headers,
+                                                         params=params,
+                                                         json=payload)
 
-            # check if response ok
-            if place_order_response.status_code == requests.codes.ok:
-                place_order_response_json = json.loads(
-                    place_order_response.content)
-                confirmation_id = place_order_response_json[
-                    'data']['confirmationId']
-                transaction_fees = place_order_response_json[
-                    'data']['transactionFees']
-                currencies = self.capital.keys()
-                total_fee = {}
-                for currency in currencies:
-                    total_fee[currency] = 0.0
-                    for fee in transaction_fees:
-                        if fee['currency'] == currency:
-                            total_fee[currency] += fee['amount']
+                # check if response ok
+                if place_order_response.status_code == requests.codes.ok:
+                    place_order_response_json = json.loads(
+                        place_order_response.content)
+                    confirmation_id = place_order_response_json[
+                        'data']['confirmationId']
+                    transaction_fees = place_order_response_json[
+                        'data']['transactionFees']
+                    currencies = self.capital.keys()
+                    total_fee = {}
+                    for currency in currencies:
+                        total_fee[currency] = 0.0
+                        for fee in transaction_fees:
+                            if fee['currency'] == currency:
+                                total_fee[currency] += fee['amount']
 
-            # response is not ok
-            else:
-                logger.error('Response status code: {}'
-                             .format(place_order_response.status_code))
+                    # break the loop
+                    break
+
+                time.sleep(attempt * 10)
+                attempt += 1
+
+                # response is not ok
+                if attempt == 3:
+                    logger.error('Response status code: {}'
+                                 .format(place_order_response.status_code))
+
+                time.sleep(attempt * 10)
+                attempt += 1
 
             if confirmation_id:
                 url = self.url_order + confirmation_id + ';jsessionid=' \
